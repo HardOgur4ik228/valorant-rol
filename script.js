@@ -1,11 +1,11 @@
-const agents = [
+onst agents = [
   {
     name: "Jett",
     role: "Duelist",
     rarity: "Legendary",
     region: "Korea",
     quote: "Watch this!",
-    assets: ["image:jett.png", "sound:jett_ult.wav"],
+    assets: ["image:assets/jett.png", "sound:assets/jett_ult.wav"],
   },
   {
     name: "Sage",
@@ -13,7 +13,7 @@ const agents = [
     rarity: "Epic",
     region: "China",
     quote: "You will not kill my allies!",
-    assets: ["image:sage.png", "voice:sage_barrier.mp3"],
+    assets: ["image:assets/sage.png", "voice:assets/sage_barrier.mp3"],
   },
   {
     name: "Omen",
@@ -21,7 +21,7 @@ const agents = [
     rarity: "Epic",
     region: "Unknown",
     quote: "I am everywhere.",
-    assets: ["image:omen.png", "sound:omen_ult.wav"],
+    assets: ["image:assets/omen.png", "sound:assets/omen_ult.wav"],
   },
   {
     name: "Phoenix",
@@ -29,7 +29,7 @@ const agents = [
     rarity: "Rare",
     region: "UK",
     quote: "Just take a seat.",
-    assets: ["sound:phoenix_voice.mp3"],
+    assets: ["sound:assets/phoenix_voice.mp3"],
   },
   {
     name: "Killjoy",
@@ -37,7 +37,7 @@ const agents = [
     rarity: "Rare",
     region: "Germany",
     quote: "Relax, I have it under control.",
-    assets: ["image:killjoy.png", "skin:turret_skin.vfx"],
+    assets: ["image:assets/killjoy.png", "skin:assets/turret_skin.vfx"],
   },
   {
     name: "Sova",
@@ -45,7 +45,7 @@ const agents = [
     rarity: "Common",
     region: "Russia",
     quote: "Nowhere to run!",
-    assets: ["image:sova.png"],
+    assets: ["image:assets/sova.png"],
   },
   {
     name: "Raze",
@@ -53,7 +53,7 @@ const agents = [
     rarity: "Rare",
     region: "Brazil",
     quote: "Fire in the hole!",
-    assets: ["sound:raze_ult.wav"],
+    assets: ["sound:assets/raze_ult.wav"],
   },
   {
     name: "Brimstone",
@@ -61,7 +61,7 @@ const agents = [
     rarity: "Common",
     region: "USA",
     quote: "Open up the sky!",
-    assets: ["image:brimstone.png"],
+    assets: ["image:assets/brimstone.png"],
   },
 ];
 
@@ -73,20 +73,23 @@ const rarityWeights = {
 };
 
 const pityThreshold = 30;
+const maxRolls = 25;
 let pityCounter = 0;
+let rollsLeft = maxRolls;
 const rollLog = [];
 
 const rollLogEl = document.getElementById("roll-log");
 const statsGridEl = document.getElementById("stats-grid");
 const agentGridEl = document.getElementById("agent-grid");
 const pityValueEl = document.getElementById("pity-value");
+const rollsLeftEl = document.getElementById("rolls-left");
 const featuredEl = document.getElementById("featured-card");
 const searchInput = document.getElementById("search-input");
 const roleFilter = document.getElementById("role-filter");
 const rarityFilter = document.getElementById("rarity-filter");
+const tabs = document.querySelectorAll(".tab");
 
 const rollOneBtn = document.getElementById("roll-one");
-const rollTenBtn = document.getElementById("roll-ten");
 const resetPityBtn = document.getElementById("reset-pity");
 const rotateFeaturedBtn = document.getElementById("rotate-featured");
 const clearLogBtn = document.getElementById("clear-log");
@@ -221,17 +224,36 @@ const updatePity = () => {
   pityValueEl.textContent = `${pityCounter} / ${pityThreshold}`;
 };
 
-const handleRolls = (count) => {
-  for (let i = 0; i < count; i += 1) {
-    rollLog.push(rollAgent());
+const updateRollsLeft = () => {
+  rollsLeftEl.textContent = rollsLeft;
+  rollOneBtn.disabled = rollsLeft <= 0;
+};
+
+const handleRoll = () => {
+  if (rollsLeft <= 0) {
+    return;
   }
+  rollLog.push(rollAgent());
+  rollsLeft -= 1;
   renderRollLog();
   renderStats();
   updatePity();
+  updateRollsLeft();
 };
 
-rollOneBtn.addEventListener("click", () => handleRolls(1));
-rollTenBtn.addEventListener("click", () => handleRolls(10));
+const handleTabClick = (event) => {
+  const target = event.currentTarget.dataset.tab;
+  tabs.forEach((tab) => tab.classList.remove("active"));
+  document.querySelectorAll(".tab-panel").forEach((panel) => {
+    panel.classList.remove("active");
+  });
+  event.currentTarget.classList.add("active");
+  document.getElementById(`tab-${target}`).classList.add("active");
+};
+
+tabs.forEach((tab) => tab.addEventListener("click", handleTabClick));
+
+rollOneBtn.addEventListener("click", handleRoll);
 resetPityBtn.addEventListener("click", () => {
   pityCounter = 0;
   updatePity();
@@ -272,3 +294,4 @@ renderFeatured();
 renderAgents();
 renderStats();
 updatePity();
+updateRollsLeft();
