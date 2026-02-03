@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Valorant Gacha Lab</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <div>
+          <p class="pill">Valorant Gacha · GitHub Pages</p>
+          <h1>Valorant Gacha Lab</h1>
+          <p class="subtitle">
+            Собери свою коллекцию агентов, крути баннер, добавляй изображения и звуки и делись
+            результатами.
+          </p>
+          <div class="cta-row">
+            <button id="roll-one" class="btn primary">Крутить 1 раз</button>
+            <button id="roll-ten" class="btn ghost">Крутить 10 раз</button>
+            <button id="reset-pity" class="btn ghost">Сбросить pity</button>
+          </div>
+          <div class="stats-panel" id="pity-panel">
+            <div>
+              <span class="label">Pity счётчик</span>
+              <span class="value" id="pity-value">0 / 30</span>
+            </div>
+            <div>
+              <span class="label">Гарант на</span>
+              <span class="value">Legendary</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-card">
+          <h2>Featured Agent</h2>
+          <div class="featured" id="featured-card"></div>
+          <button id="rotate-featured" class="btn subtle">Сменить агент</button>
+        </div>
+      </header>
+
+      <main class="content">
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Результаты роллов</h2>
+            <div class="panel-actions">
+              <button id="clear-log" class="btn subtle">Очистить лог</button>
+              <button id="export-log" class="btn subtle">Экспорт в JSON</button>
+            </div>
+          </div>
+          <div class="roll-log" id="roll-log"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Статистика по редкости</h2>
+          </div>
+          <div class="stats-grid" id="stats-grid"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Коллекция агентов</h2>
+            <div class="panel-actions">
+              <input
+                id="search-input"
+                class="search"
+                type="search"
+                placeholder="Найти агента"
+              />
+              <select id="role-filter" class="select">
+                <option value="all">Все роли</option>
+                <option value="Duelist">Duelist</option>
+                <option value="Initiator">Initiator</option>
+                <option value="Sentinel">Sentinel</option>
+                <option value="Controller">Controller</option>
+              </select>
+              <select id="rarity-filter" class="select">
+                <option value="all">Все редкости</option>
+                <option value="Common">Common</option>
+                <option value="Rare">Rare</option>
+                <option value="Epic">Epic</option>
+                <option value="Legendary">Legendary</option>
+              </select>
+            </div>
+          </div>
+          <div class="agent-grid" id="agent-grid"></div>
+        </section>
+      </main>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
