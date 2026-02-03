@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Valorant Gacha Lab</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <div>
+          <p class="pill">Valorant Gacha · GitHub Pages</p>
+          <h1>Valorant Gacha Arena</h1>
+          <p class="subtitle">
+            Роллы по агентам Valorant в формате арены: табы, ограниченный пул попыток и главная
+            кнопка «roll».
+          </p>
+        </div>
+        <div class="hero-card">
+          <h2>Featured Agent</h2>
+          <div class="featured" id="featured-card"></div>
+          <button id="rotate-featured" class="btn subtle">Сменить агент</button>
+        </div>
+      </header>
+
+      <main class="content">
+        <nav class="tabs" aria-label="Основные вкладки">
+          <button class="tab active" data-tab="roll">Roll</button>
+          <button class="tab" data-tab="stats">Stats</button>
+          <button class="tab" data-tab="agents">Agents</button>
+          <button class="tab" data-tab="assets">Assets</button>
+        </nav>
+
+        <section class="panel tab-panel active" id="tab-roll">
+          <div class="panel-header">
+            <div>
+              <h2>Roll Room</h2>
+              <p class="subtitle">Ограниченные попытки. Нажми главную кнопку и смотри результат.</p>
+            </div>
+            <div class="panel-actions">
+              <button id="reset-pity" class="btn ghost">Сбросить pity</button>
+              <button id="clear-log" class="btn subtle">Очистить лог</button>
+              <button id="export-log" class="btn subtle">Экспорт в JSON</button>
+            </div>
+          </div>
+          <div class="roll-zone">
+            <div class="roll-main">
+              <div class="roll-meta">
+                <div>
+                  <span class="label">Pity счётчик</span>
+                  <span class="value" id="pity-value">0 / 30</span>
+                </div>
+                <div>
+                  <span class="label">Осталось роллов</span>
+                  <span class="value" id="rolls-left">25</span>
+                </div>
+                <div>
+                  <span class="label">Гарант на</span>
+                  <span class="value">Legendary</span>
+                </div>
+              </div>
+              <button id="roll-one" class="btn roll-button">ROLL</button>
+            </div>
+            <div class="roll-log" id="roll-log"></div>
+          </div>
+        </section>
+
+        <section class="panel tab-panel" id="tab-stats">
+          <div class="panel-header">
+            <h2>Статистика по редкости</h2>
+          </div>
+          <div class="stats-grid" id="stats-grid"></div>
+        </section>
+
+        <section class="panel tab-panel" id="tab-agents">
+          <div class="panel-header">
+            <h2>Коллекция агентов</h2>
+            <div class="panel-actions">
+              <input
+                id="search-input"
+                class="search"
+                type="search"
+                placeholder="Найти агента"
+              />
+              <select id="role-filter" class="select">
+                <option value="all">Все роли</option>
+                <option value="Duelist">Duelist</option>
+                <option value="Initiator">Initiator</option>
+                <option value="Sentinel">Sentinel</option>
+                <option value="Controller">Controller</option>
+              </select>
+              <select id="rarity-filter" class="select">
+                <option value="all">Все редкости</option>
+                <option value="Common">Common</option>
+                <option value="Rare">Rare</option>
+                <option value="Epic">Epic</option>
+                <option value="Legendary">Legendary</option>
+              </select>
+            </div>
+          </div>
+          <div class="agent-grid" id="agent-grid"></div>
+        </section>
+
+        <section class="panel tab-panel" id="tab-assets">
+          <div class="panel-header">
+            <h2>Папка для ассетов</h2>
+          </div>
+          <div class="asset-panel">
+            <div>
+              <p class="subtitle">
+                Добавляй картинки и звуки в папку <code>assets/</code> и указывай их в карточках
+                агентов. Так проект сразу готов для GitHub Pages.
+              </p>
+              <ul class="asset-list">
+                <li>Изображения: <code>assets/jett.png</code>, <code>assets/sage.png</code></li>
+                <li>Звуки: <code>assets/jett_ult.wav</code>, <code>assets/phoenix_voice.mp3</code></li>
+              </ul>
+            </div>
+            <div class="asset-box">
+              <div class="asset-title">assets/</div>
+              <div class="asset-hint">Перетащи сюда свои файлы</div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
