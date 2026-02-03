@@ -73,20 +73,23 @@ const rarityWeights = {
 };
 
 const pityThreshold = 30;
+const maxRolls = 25;
 let pityCounter = 0;
+let rollsLeft = maxRolls;
 const rollLog = [];
 
 const rollLogEl = document.getElementById("roll-log");
 const statsGridEl = document.getElementById("stats-grid");
 const agentGridEl = document.getElementById("agent-grid");
 const pityValueEl = document.getElementById("pity-value");
+const rollsLeftEl = document.getElementById("rolls-left");
 const featuredEl = document.getElementById("featured-card");
 const searchInput = document.getElementById("search-input");
 const roleFilter = document.getElementById("role-filter");
 const rarityFilter = document.getElementById("rarity-filter");
+const tabs = document.querySelectorAll(".tab");
 
 const rollOneBtn = document.getElementById("roll-one");
-const rollTenBtn = document.getElementById("roll-ten");
 const resetPityBtn = document.getElementById("reset-pity");
 const rotateFeaturedBtn = document.getElementById("rotate-featured");
 const clearLogBtn = document.getElementById("clear-log");
@@ -221,17 +224,36 @@ const updatePity = () => {
   pityValueEl.textContent = `${pityCounter} / ${pityThreshold}`;
 };
 
-const handleRolls = (count) => {
-  for (let i = 0; i < count; i += 1) {
-    rollLog.push(rollAgent());
+const updateRollsLeft = () => {
+  rollsLeftEl.textContent = rollsLeft;
+  rollOneBtn.disabled = rollsLeft <= 0;
+};
+
+const handleRoll = () => {
+  if (rollsLeft <= 0) {
+    return;
   }
+  rollLog.push(rollAgent());
+  rollsLeft -= 1;
   renderRollLog();
   renderStats();
   updatePity();
+  updateRollsLeft();
 };
 
-rollOneBtn.addEventListener("click", () => handleRolls(1));
-rollTenBtn.addEventListener("click", () => handleRolls(10));
+const handleTabClick = (event) => {
+  const target = event.currentTarget.dataset.tab;
+  tabs.forEach((tab) => tab.classList.remove("active"));
+  document.querySelectorAll(".tab-panel").forEach((panel) => {
+    panel.classList.remove("active");
+  });
+  event.currentTarget.classList.add("active");
+  document.getElementById(`tab-${target}`).classList.add("active");
+};
+
+tabs.forEach((tab) => tab.addEventListener("click", handleTabClick));
+
+rollOneBtn.addEventListener("click", handleRoll);
 resetPityBtn.addEventListener("click", () => {
   pityCounter = 0;
   updatePity();
@@ -272,3 +294,4 @@ renderFeatured();
 renderAgents();
 renderStats();
 updatePity();
+updateRollsLeft();
